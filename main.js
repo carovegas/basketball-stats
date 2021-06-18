@@ -235,31 +235,32 @@ function updateCardsInGame() {
 // players on the court again, and add the stats for the next quarter to the game.
 function endQuarter() {
     // Update the clock display
-
+    var timer = document.getElementById('timer');
+    timer.innerText = 'Q '+ (currentQuarter + 1) + ' Time: 0:00';
 
     // Allow the coach to move players again.
-
+    quarterInPlay = false;
 
     // Add the average PER of the quarter to the total count.
-
+    totalAvePER += parseFloat(quarterAvePER.toPrecision(4));
 
     // Add the value to the display counter above the stats column.
-
+    document.getElementById('averagePER').innerText += quarterAvePER.toPrecision(4) + ' + ';
 
     // Progress to the next quarter.
-
+    currentQuarter++;
 
     // Update the stats so that they reflect the next quarter.
-
+    updateCardsInGame();
 
     // Let the coach know that the new PER stats are up to date. 
-
+    alert('Q '+ (currentQuarter + 1) + ' stats are in!');
 
     // Encourage the coach to consider new players.
-
+    document.getElementById('quarter').innerText = 'Choose Players for Q'+(currentQuarter+1);
 
     // Update the button text.
-
+    document.getElementById('start').innerText = 'Start Q'+(currentQuarter+1);
 }
 
 // At the end of the game, show the coach the average PER
