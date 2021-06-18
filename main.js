@@ -267,21 +267,22 @@ function endQuarter() {
 // for the entire game and clean up the final view of the app.
 function endGame() {
     // Don't let the coach move players around; the game is over.
-
+    quarterInPlay = true;
 
     // Calculate the average PER for the entire game, including the last quarter.
-
-
+    otalAvePER += parseFloat(quarterAvePER);
+    var averagePER = totalAvePER/numQuarters;
 
     // Let the coach know that the game is over and what the PER was for the game.
-
+    alert('Game Over. Game Average PER was: ' + averagePER.toPrecision(4));
+    document.getElementById('averagePER').innerText += quarterAvePER.toPrecision(4) + ' = ' + averagePER.toPrecision(4);
 
 
     // Clean up the web app view.
-
-
-
-
+    document.getElementById('timer').innerText = 'That\'s All Folks!';
+    document.getElementById('gameButton').innerText = '';
+    document.getElementById('quarter').innerText = '';
+    document.getElementById('currentPER').innerText = '';
 }
 
 // This function is called when the Game button is selected. Each time the button is selected,
