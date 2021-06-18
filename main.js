@@ -215,7 +215,7 @@ function updateCardsInGame() {
         var playerName = currentPlayers[playerIndex].id;
 
         // Get the PER for the player
-        var playerPer = playerMap.get(playerName).[currentQuarter];
+        var playerPer = playerMap.get(playerName)[currentQuarter];
 
         // Add the PER to the quarter PER total
         quarterPER += playerPer;
@@ -270,7 +270,7 @@ function endGame() {
     quarterInPlay = true;
 
     // Calculate the average PER for the entire game, including the last quarter.
-    otalAvePER += parseFloat(quarterAvePER);
+    totalAvePER += parseFloat(quarterAvePER);
     var averagePER = totalAvePER/numQuarters;
 
     // Let the coach know that the game is over and what the PER was for the game.
@@ -290,41 +290,41 @@ function endGame() {
 // to the next quarter.
 function startNextQuarter() {
     // If there aren't exactly five players on the court, alert the coach that the game can't start.
-
-
-
-
-
-
+    if (playersOnCourt !== 5) {
+        alert('You onlny have ' + playersOnCourt + ' players on court. You should have 5' );
+        return;
+    }
 
     // Update the button to indicate a quarter is in progress.
-    
+    document.getElementById('start').innerText = 'Q' + (currentQuarter + 1) + ' is in progress';
 
     // Define the interval period for the quarter; in this case, it's 12 seconds.
-
+    var secondsInQuarter = 2;
 
     // Set the quarterInPlay variable to true so that the coach
     // can't move players during gameplay
+    quarterInPlay = true;
 
 
     // Update the count down every 1 second, as indicated by the `1000` as
     // the second parameter to the setInterval function
-       
+    var x = setInterval(function() {
         // Display the current time on the court board.
-
+        document.getElementById('timer').innerText = 'Q '+ (currentQuarter + 1) + ' Time: ' + secondsInQuarter + ':00';
 
         // Decrement the interval counter for this quarter.
-
+        secondsInQuarter--;
 
         // If the quarter has ended, reset the interval timer and get ready for the next quarter.
+        if (secondsInQuarter < 0) {
+            clearInterval(x);
+            if(currentQuarter < 3) {
+                endQuarter();
+            }
+            else {
+                endGame();
+            }
+        }
 
-
-
-
-
-
-
-
-
-
+    }, 1000);
 }
