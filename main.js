@@ -198,35 +198,36 @@ function movePlayer() {
 function updateCardsInGame() {
     // For each player, update their player stat card to show PER for that player for 
     // a specific quarter.
-
-
-
+    for (let [playerName, playerStats] of playerMap.entries()) {
+        document.getElementById(playerName + '_card').children[1].innerText = 'PER: '+playerStats[currentQuarter].toPrecision(4);
+    }
 
     // Reset the current quarter's total PER.
-
-
+    quarterPER = 0;
+    quarterAvePER = 0;
 
     // Get a list of all the players currently on the court.
-
+    var currentPlayers = document.getElementById('playersOnCourt').children;
 
     // Loop through each of the players currently on the court.
-
+    for(var playerIndex = 0; playerIndex < currentPlayers.length; playerIndex++) {
         // Get the name of the player
-
+        var playerName = currentPlayers[playerIndex].id;
 
         // Get the PER for the player
-
+        var playerPer = playerMap.get(playerName).[currentQuarter];
 
         // Add the PER to the quarter PER total
-
-
+        quarterPER += playerPer;
+    }
 
     // Get the average PER for the start of the quarter.
+    totalAvePER = quarterPER / playersOnCourt;
 
 
     // Update Current PER with the new average PER for the quarter now that the
     // stats have been updated.
-
+    document.getElementById('currentPER').innerText = 'Current PER: '+ quarterAvePER.toPrecision(4);
 }
 
 // At the end of each quarter, show the coach the average PER
