@@ -108,20 +108,20 @@ p.subtitle {
 
 #bench {
   width:30%;
-  background: #10296D;
-  color: #DC482E;
+  background: #ebf6fb;
+  color: #006996;
 }
 
 #court {
   width:35%;
-  background: #DC482E;
-  color: #10296D;
+  background: #147a58;
+  color: #ffffff;
 }
 
 #stats {
   width:35%;
-  background: #AC6FAA;
-  color: #10296D;
+  background: #eefaf6;
+  color: #21b788;
 }
 
 .start {
@@ -143,6 +143,6 @@ p.subtitle {
 }
 
 .playerButton {
-  background-color: #AC6FAA;
+  background-color: #fafafa;
   width: 32%;
 }
