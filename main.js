@@ -320,7 +320,7 @@ function startNextQuarter() {
     document.getElementById('start').innerText = 'Q' + (currentQuarter + 1) + ' is in progress';
 
     // Define the interval period for the quarter; in this case, it's 12 seconds.
-    var secondsInQuarter = 2;
+    var secondsInQuarter = 6;
 
     // Set the quarterInPlay variable to true so that the coach
     // can't move players during gameplay
