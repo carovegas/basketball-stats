@@ -15,13 +15,16 @@ var quarterPER = 0;
 var quarterAvePER = 0;
 var totalAvePER = 0;
 
+// Add player cards elements
+var playerCardsElements = [];
+
 // Function to read in all of the player stats
 function processPlayers(allPlayerStats) {
     // Split the data by newline into an array.
-var allPlayerStatLines = allPlayerStats.split(/\r\n|\n/);
+    var allPlayerStatLines = allPlayerStats.split(/\r\n|\n/);
 
     // Remove the header line (first line)
-var header = allPlayerStatLines.shift();
+    var header = allPlayerStatLines.shift();
 
     // Loop through the rows and create a map entry of player name to a list of player PER
     for(var statLine of allPlayerStatLines){
@@ -47,8 +50,6 @@ var header = allPlayerStatLines.shift();
         // Add per value to player's array (the next quarter)
         playerMap.get(playerName).push(per);
     }
-        
-
 
     // Add the players to the bench.
     displayPlayerBench();
@@ -95,7 +96,6 @@ function displayPlayerBench() {
 // 1. Ensure the players currently on the court have the correct PER represented
 // 2. Update the stats for each player for the current quarter
 function displayPlayerCards() {
-    // Get the div in which the stats will be shown.
     var playerCardDisplay = document.getElementById('playerCards');
 
     // For each player, create a player stat card to show the PER for that player for a 
@@ -129,14 +129,18 @@ function displayPlayerCards() {
         newPlayerPER.className = 'perCard';
 
         // Set the text for the PER
-        newPlayerPER.innerText = 'PER: ' + playerStats[currentQuarter].toPrecision(4);
+        updateCardPer(newPlayerPER, playerStats[currentQuarter].toPrecision(4))
 
         // Add the PER
         playerCard.appendChild(newPlayerPER);
 
         // Add the player stat card to the game.
         playerCardDisplay.appendChild(playerCard);
+
+        playerCardsElements.push(playerCard);
     }
+
+    sortCardsPerPer();
 }
 
 // This function is called each time a player button is clicked. A player
@@ -192,6 +196,20 @@ function movePlayer() {
     }
 }
 
+function updateCardPer(card, per){
+    card.innerText = 'PER: ' + per;
+    card.dataset.per = per;
+}
+
+function sortCardsPerPer(){
+    var sorted = playerCardsElements.sort(function(a, b){
+        return +b.children[1].getAttribute('data-per') - +a.children[1].getAttribute('data-per');
+   });
+   var playerCardDisplay = document.getElementById('playerCards');
+   playerCardDisplay.innerHTML = '';
+   sorted.forEach(el => playerCardDisplay.appendChild(el));
+}
+
 // At the start of each quarter, do two things: 
 // 1. Ensure the players currently on the court have the correct PER represented
 // 2. Update the stats for each player for the current quarter.
@@ -199,8 +217,11 @@ function updateCardsInGame() {
     // For each player, update their player stat card to show PER for that player for 
     // a specific quarter.
     for (let [playerName, playerStats] of playerMap.entries()) {
-        document.getElementById(playerName + '_card').children[1].innerText = 'PER: '+playerStats[currentQuarter].toPrecision(4);
+        updateCardPer(document.getElementById(playerName + '_card').children[1], playerStats[currentQuarter].toPrecision(4));
     }
+
+    // Order cards per PER
+    sortCardsPerPer()
 
     // Reset the current quarter's total PER.
     quarterPER = 0;
